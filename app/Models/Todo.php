@@ -13,4 +13,8 @@ class Todo extends Model
         'message',
         'complete'
     ];
+
+    protected $attributes = [
+        'complete' => false,
+    ];
 }

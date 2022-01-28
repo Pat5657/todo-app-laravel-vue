@@ -1,13 +1,6 @@
 <template>
     <div class="p-4 mx-auto flex flex-col justify-center max-w-[40rem]">
-        <div class="mb-8 p-2 bg-slate-800 rounded shadow">
-            <p class="mb-2">Add a task to your todo list</p>
-            <form>
-                <textarea class="input w-full" rows="4" placeholder="Enter new todo task..."/>
-
-                <button type="submit" class="btn-primary">Submit</button>
-            </form>
-        </div>
+        <TodoForm @created="getTodos"/>
 
         <div class="flex flex-col gap-4">
             <TodoCard 
@@ -19,27 +12,30 @@
 </template>
 
 <script>
+import axios from 'axios'
 import TodoCard from '../parts/TodoCard'
+import TodoForm from '../parts/TodoListPage/TodoForm'
 
 export default {
     name: 'TodoListPage',
     components: {
-        TodoCard
+        TodoCard,
+        TodoForm
     },
     data() {
         return {
-            todos: [
-                {
-                    message: "First message..."
-                },
-                {
-                    message: "Second message..."
-                },
-                {
-                    message: "Third message..."
-                },
-            ]
+            todos: []
         }
+    },
+    methods: {
+        getTodos: function () {
+            axios.get('/api/todo')
+            .then(({ data }) => this.todos = data)
+            .catch((error) => console.log(error))
+        }
+    },
+    created() {
+        this.getTodos()
     }
 }
 </script>

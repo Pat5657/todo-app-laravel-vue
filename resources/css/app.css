@@ -12,3 +12,6 @@
 .btn-primary {
     @apply btn bg-blue-700;
 }
+.btn-link {
+    @apply btn hover:underline;
+}

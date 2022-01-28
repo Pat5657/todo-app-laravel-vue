@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TodoController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/todo', [TodoController::class, 'index']);
-Route::post('/todo', [TodoController::class, 'save']);
+Route::prefix('auth')->group(function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::match('post', 'login', [AuthController::class, 'login']);
+});
+
+Route::prefix('todo')->group(function () {
+    Route::get('', [TodoController::class, 'index']);
+    Route::post('', [TodoController::class, 'save']);
+});
